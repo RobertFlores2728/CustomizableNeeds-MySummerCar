@@ -31,14 +31,31 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MSCLoader">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\My Summer Car\mysummercar_Data\Managed\MSCLoader.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PlayMaker">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\My Summer Car\mysummercar_Data\Managed\PlayMaker.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\My Summer Car\mysummercar_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\My Summer Car\mysummercar_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandGetNeeds.cs" />
     <Compile Include="CustomizableNeeds.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
