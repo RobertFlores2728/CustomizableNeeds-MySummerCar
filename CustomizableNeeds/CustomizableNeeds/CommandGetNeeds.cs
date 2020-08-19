@@ -15,12 +15,19 @@ namespace CustomizableNeeds
         // The function that's called when executing command
         public override void Run(string[] args)
         {
+            /*
             foreach (string arg in args) {
                 ModConsole.Print(arg);
             }
+            */
+
+            FsmVariables.GlobalVariables.FindFsmFloat("PlayerThirst").Value = 100f;
+
+
+
 
             //Do something when command is executed
-            ModConsole.Print("Player Urine: " + FsmVariables.GlobalVariables.FindFsmFloat("PlayerUrine").Value); // 0 - empty, 100 - full
+            //ModConsole.Print("Player Urine: " + FsmVariables.GlobalVariables.FindFsmFloat("PlayerUrine").Value); // 0 - empty, 100 - full
         }
 
     }
