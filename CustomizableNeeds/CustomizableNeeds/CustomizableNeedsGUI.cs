@@ -10,12 +10,29 @@ namespace CustomizableNeeds
 
         float sliderValue = 0.0f;
 
-        public void OnGUI() {
+        public void OnGUI()
+        {
             if (guiDisplaying == false)
                 return;
 
-            float areaWidth = 500f;
-            float areaHeight = 2000f;
+            DrawIncreaseRates();
+
+            DrawDecreaseRates();
+
+
+        }
+
+
+        void DrawIncreaseRates()
+        {
+            float areaWidth = 750f;
+            float areaHeight = 210f;
+
+            float area1PositionX = Screen.width / 2 - areaWidth / 2;
+            float area1PositionY = 20;
+
+
+
 
             // slider style
             GUIStyle sliderStyle = GUI.skin.GetStyle("HorizontalSlider");
@@ -23,43 +40,108 @@ namespace CustomizableNeeds
 
             //label style
             GUIStyle labelStyle = GUI.skin.GetStyle("label");
-            labelStyle.margin = new RectOffset(0, 0, 3, 0);
-            labelStyle.fontSize = 12;
+            labelStyle.margin = new RectOffset(0, 0, 12, 0);
+            labelStyle.padding = new RectOffset(50, 0, 0, 0);
 
             // box over entire area
-            GUI.Box(new Rect(Screen.width / 2 - areaWidth / 2, 0, areaWidth, areaHeight), "Customizable Needs");
+            GUI.Box(new Rect(area1PositionX, area1PositionY - 20, areaWidth, areaHeight), "Customizable Needs");
 
-            GUILayout.BeginArea(new Rect(Screen.width / 2 - areaWidth / 2, 20, areaWidth, areaHeight));
+            GUILayout.BeginArea(new Rect(area1PositionX, area1PositionY, areaWidth, areaHeight));
 
+            labelStyle.fontSize = 15;
+            GUILayout.Label("Increase Rates:");
 
+            labelStyle.fontSize = 13;
             GUILayout.BeginHorizontal();
-
-
-            GUILayout.BeginVertical();
-            GUILayout.Label("Real - D: 0 H: 0 M: 0 | Game - D: 0 H: 0 M: 0");
-            GUILayout.Label("Real - D: 0 H: 0 M: 0 | Game - D: 0 H: 0 M: 0");
-            GUILayout.EndVertical();
-
-            GUILayout.BeginVertical();
-            sliderValue = GUILayout.HorizontalSlider(sliderValue, 0.0F, 1.0F);
-            sliderValue = GUILayout.HorizontalSlider(sliderValue, 0.0F, 1.0F);
-            sliderValue = GUILayout.HorizontalSlider(sliderValue, 0.0F, 1.0F);
-            sliderValue = GUILayout.HorizontalSlider(sliderValue, 0.0F, 1.0F);
-            sliderValue = GUILayout.HorizontalSlider(sliderValue, 0.0F, 1.0F);
-            sliderValue = GUILayout.HorizontalSlider(sliderValue, 0.0F, 1.0F);
-            GUILayout.EndVertical();
-
-            GUILayout.BeginVertical();
-            GUILayout.Label("Real - D: 0 H: 0 M: 0 | Game - D: 0 H: 0 M: 0");
-            GUILayout.Label("Real - D: 0 H: 0 M: 0 | Game - D: 0 H: 0 M: 0");
-            GUILayout.EndVertical();
-
-
+            GUILayout.Label("Need");
+            GUILayout.Label("Rate");
+            GUILayout.Label("Estimated time from empty to full");
             GUILayout.EndHorizontal();
 
 
-            GUILayout.EndArea();
+            labelStyle.fontSize = 12;
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Need 1");
+            sliderValue = GUILayout.HorizontalSlider(sliderValue, 0.0F, 1.0F, GUILayout.MinWidth(150f));
+            GUILayout.Label("Real - D: 0 H: 0 M: 0 S: 0 || Game - D: 0 H: 0 M: 0 S: 0");
+            GUILayout.EndHorizontal();
 
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Need 1");
+            sliderValue = GUILayout.HorizontalSlider(sliderValue, 0.0F, 1.0F, GUILayout.MinWidth(150f));
+            GUILayout.Label("Real - D: 0 H: 0 M: 0 S: 0 || Game - D: 0 H: 0 M: 0 S: 0");
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Need 1");
+            sliderValue = GUILayout.HorizontalSlider(sliderValue, 0.0F, 1.0F, GUILayout.MinWidth(150f));
+            GUILayout.Label("Real - D: 0 H: 0 M: 0 S: 0 || Game - D: 0 H: 0 M: 0 S: 0");
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Need 1");
+            sliderValue = GUILayout.HorizontalSlider(sliderValue, 0.0F, 1.0F, GUILayout.MinWidth(150f));
+            GUILayout.Label("Real - D: 0 H: 0 M: 0 S: 0 || Game - D: 0 H: 0 M: 0 S: 0");
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Need 1");
+            sliderValue = GUILayout.HorizontalSlider(sliderValue, 0.0F, 1.0F, GUILayout.MinWidth(150f));
+            GUILayout.Label("Real - D: 0 H: 0 M: 0 S: 0 || Game - D: 0 H: 0 M: 0 S: 0");
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Need 1");
+            sliderValue = GUILayout.HorizontalSlider(sliderValue, 0.0F, 1.0F, GUILayout.MinWidth(150f));
+            GUILayout.Label("Real - D: 0 H: 0 M: 0 S: 0 || Game - D: 0 H: 0 M: 0 S: 0");
+            GUILayout.EndHorizontal();
+
+            GUILayout.EndArea();
+        }
+
+
+        void DrawDecreaseRates()
+        {
+            float areaWidth = 750f;
+            float areaHeight = 200f;
+
+            float area1PositionX = Screen.width / 2 - areaWidth / 2;
+            float area1PositionY = 300;
+
+
+
+
+            // slider style
+            GUIStyle sliderStyle = GUI.skin.GetStyle("HorizontalSlider");
+            sliderStyle.margin = new RectOffset(0, 0, 10, 0);
+
+            //label style
+            GUIStyle labelStyle = GUI.skin.GetStyle("label");
+            labelStyle.margin = new RectOffset(0, 0, 8, 0);
+            labelStyle.padding = new RectOffset(50, 0, 0, 0);
+
+            // box over entire area
+            GUI.Box(new Rect(area1PositionX, area1PositionY - 20, areaWidth, areaHeight), "Customizable Needs");
+
+            GUILayout.BeginArea(new Rect(area1PositionX, area1PositionY, areaWidth, areaHeight));
+
+            labelStyle.fontSize = 15;
+            GUILayout.Label("Decrease Rates:");
+
+            labelStyle.fontSize = 13;
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Need");
+            GUILayout.Label("Rate");
+            GUILayout.EndHorizontal();
+
+
+            labelStyle.fontSize = 12;
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Need 1");
+            sliderValue = GUILayout.HorizontalSlider(sliderValue, 0.0F, 1.0F, GUILayout.MaxWidth(250f));
+            GUILayout.EndHorizontal();
+
+            GUILayout.EndArea();
         }
 
 
