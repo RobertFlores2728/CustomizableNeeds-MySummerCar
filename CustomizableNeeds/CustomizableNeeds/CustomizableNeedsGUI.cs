@@ -10,123 +10,151 @@ namespace CustomizableNeeds
 
         float sliderValue = 0.0f;
 
-        public void OnGUI()
-    {
-        if (guiDisplaying == false)
-            return;
+		public void OnGUI()
+		{
+			if (guiDisplaying == false)
+				return;
 
-        DrawIncreaseRates();
+			//BACKGROUND BOX
+			DrawBox();
 
-        DrawDecreaseRates();
+			DrawIncreaseRates();
 
-        
-    }
+			DrawDecreaseRates();
 
-    public struct Coords
-    {
-        public Coords(float x, float y)
-        {
-            this.x = x;
-            this.y = y;
-        }
+			
+		}
 
-        public float x;
-        public float y;
-    }
+		public struct Coords
+		{
+			public Coords(float x, float y)
+			{
+				this.x = x;
+				this.y = y;
+			}
 
-    void DrawBox() {
-        Coords boxDimensions = new Coords(850f, 210f); // keep box dimensions within (1280, 720) pixels
-        Coords boxPosition = new Coords(Screen.width / 2 - boxDimensions.x / 2, 20);
-        Rect boxRect = new Rect(boxPosition.x, boxPosition.y, boxDimensions.x, boxDimensions.y);
+			public float x;
+			public float y;
+		}
 
-        GUI.Box(boxRect, "Customizable Needs");
-    }
+		void DrawBox() {
+			Coords boxDimensions = new Coords(850f, 500f); // keep box dimensions within (1280, 720) pixels
+			Coords boxPosition = new Coords(Screen.width / 2 - boxDimensions.x / 2, 20);
+			Rect boxRect = new Rect(boxPosition.x, boxPosition.y, boxDimensions.x, boxDimensions.y);
 
-    void DrawLabel(float posX, float posY, string labelText, int fontSize = 12) {
-        GUIStyle labelStyle = new GUIStyle(GUI.skin.GetStyle("Label"));
-        labelStyle.fontSize = fontSize;
+			GUI.Box(boxRect, "CustomizableNeeds v1.0 by Heb27");
+		}
 
-        Coords labelDimensions = new Coords(250f, 25f);
-        Coords labelPosition = new Coords(posX, posY);
-        Rect labelRect = new Rect(labelPosition.x, labelPosition.y, labelDimensions.x, labelDimensions.y); ;
+		void DrawLabel(float posX, float posY, string labelText, int fontSize = 12) {
+			GUIStyle labelStyle = new GUIStyle(GUI.skin.GetStyle("Label"));
+			labelStyle.fontSize = fontSize;
 
-        GUI.Label(labelRect, labelText, labelStyle);
-    }
+			Coords labelDimensions = new Coords(375f, 25f);
+			Coords labelPosition = new Coords(posX, posY);
+			Rect labelRect = new Rect(labelPosition.x, labelPosition.y, labelDimensions.x, labelDimensions.y); ;
 
+			GUI.Label(labelRect, labelText, labelStyle);
+		}
 
-    //hardcode positions only way!
-    // keep all positions within (1280, 720) pixels
-    void DrawIncreaseRates() {
+		void DrawSlider(float posX, float posY, ref float value)
+		{
+			Coords sliderDimensions = new Coords(250f, 25f);
+			Coords sliderPosition = new Coords(posX, posY + 4);
+			Rect labelRect = new Rect(sliderPosition.x, sliderPosition.y, sliderDimensions.x, sliderDimensions.y); ;
 
-        float centerX = Screen.width / 2;
-
-        //BACKGROUND BOX
-        DrawBox();
-
-        //SECTION LABEL
-        DrawLabel(centerX - 50, 50, "Increase Rates", 15);
-
-        //COLUMN LABELS
-        DrawLabel(centerX - 325, 75, "Need", 13);
-        DrawLabel(centerX - 50, 75, "Rate", 13);
-        DrawLabel(centerX + 150, 75, "Estimated time from empty to full", 13);
-
-        //ROW 1
-        DrawLabel(centerX - 325, 100, "Thirst", 12);
-        DrawLabel(centerX - 50, 100, "Rate", 12);
-        DrawLabel(centerX + 150, 100, "Estimated time from empty to full", 12);
-
-    }
+			value = GUI.HorizontalSlider(labelRect, value, 0.0f, 1.0f);
+		}
 
 
-    void DrawDecreaseRates() {
-        float areaWidth = 850f;
-        float areaHeight = 210f;
+		//hardcode positions only way!
+		// keep all positions within (1280, 720) pixels
+		void DrawIncreaseRates() {
 
-        float area1PositionX = Screen.width / 2 - areaWidth / 2;
-        float area1PositionY = 300;
+			float centerX = Screen.width / 2;
 
-        
+			//SECTION LABEL
+			DrawLabel(centerX - 50, 50, "Increase Rates", 15);
 
-
-        // slider style
-        GUIStyle sliderStyle = new GUIStyle(GUI.skin.GetStyle("HorizontalSlider"));
-        sliderStyle.margin = new RectOffset(0, 0, 13, 0);
-
-        //label style
-        GUIStyle labelStyle = new GUIStyle(GUI.skin.GetStyle("Label"));
-        labelStyle.margin = new RectOffset(0, 0, 12, 0);
-        //labelStyle.padding = new RectOffset(50, 0, 0, 0);
-
-        // box over entire area
-        GUI.Box(new Rect(area1PositionX, area1PositionY - 20, areaWidth, areaHeight), "Customizable Needs");
-
-        GUILayout.BeginArea(new Rect(area1PositionX, area1PositionY, areaWidth, areaHeight));
-
-        labelStyle.fontSize = 15;
-        GUILayout.Label("Decrease Rates:", labelStyle);
-
-        labelStyle.fontSize = 13;
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Need", labelStyle);
-        GUILayout.Label("Rate", labelStyle);
-        GUILayout.Label("Value", labelStyle);
-        GUILayout.EndHorizontal();
-
-
-        labelStyle.fontSize = 12;
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Need 1", labelStyle);
-        decreaseValue = GUILayout.HorizontalSlider(decreaseValue, 0.0F, 1.0F, sliderStyle, GUI.skin.GetStyle("horizontalSliderThumb"), GUILayout.MaxWidth(240f));
-        //labelStyle.padding = new RectOffset(83, 0, 0, 0);
-        GUILayout.Label(decreaseValue.ToString(), labelStyle);
-        //labelStyle.padding = new RectOffset(50, 0, 0, 0);
-        GUILayout.EndHorizontal();
+			//COLUMN LABELS
+			DrawLabel(centerX - 375, 75, "Need", 13);
+			DrawLabel(centerX - 125, 75, "Rate", 13);
+			DrawLabel(centerX + 125, 75, "Estimated time from empty to full", 13);
 
 
 
-        GUILayout.EndArea();
-    }
+			//RATES
+			//
+
+			int y = 80;
+
+			//THIRST
+			y += 20;
+			DrawLabel(centerX - 375, y, "Thirst", 12);
+			DrawSlider(centerX - 250, y, ref increaseValue1);
+			DrawLabel(centerX + 50, y, "REAL= D: 00 H: 00 M: 00 S: 00    GAME= D: 00 H: 00 M: 00 S: 00", 12);
+
+			//HUNGER
+			y += 20;
+			DrawLabel(centerX - 375, y, "Hunger", 12);
+			DrawSlider(centerX - 250, y, ref increaseValue2);
+			DrawLabel(centerX + 50, y, "REAL= D: 00 H: 00 M: 00 S: 00    GAME= D: 00 H: 00 M: 00 S: 00", 12);
+
+			//THIRST
+			y += 20;
+			DrawLabel(centerX - 375, y, "Thirst", 12);
+			DrawSlider(centerX - 250, y, ref increaseValue1);
+			DrawLabel(centerX + 50, y, "REAL= D: 00 H: 00 M: 00 S: 00    GAME= D: 00 H: 00 M: 00 S: 00", 12);
+
+			//HUNGER
+			y += 20;
+			DrawLabel(centerX - 375, y, "Hunger", 12);
+			DrawSlider(centerX - 250, y, ref increaseValue2);
+			DrawLabel(centerX + 50, y, "REAL= D: 00 H: 00 M: 00 S: 00    GAME= D: 00 H: 00 M: 00 S: 00", 12);
+
+			//THIRST
+			y += 20;
+			DrawLabel(centerX - 375, y, "Thirst", 12);
+			DrawSlider(centerX - 250, y, ref increaseValue1);
+			DrawLabel(centerX + 50, y, "REAL= D: 00 H: 00 M: 00 S: 00    GAME= D: 00 H: 00 M: 00 S: 00", 12);
+
+			//HUNGER
+			y += 20;
+			DrawLabel(centerX - 375, y, "Hunger", 12);
+			DrawSlider(centerX - 250, y, ref increaseValue2);
+			DrawLabel(centerX + 50, y, "REAL= D: 00 H: 00 M: 00 S: 00    GAME= D: 00 H: 00 M: 00 S: 00", 12);
+
+		}
+
+
+		void DrawDecreaseRates()
+		{
+
+			float centerX = Screen.width / 2;
+
+			//SECTION LABEL
+			DrawLabel(centerX - 50, 275, "Decrease Rates", 15);
+
+		   
+
+			//COLUMN LABELS
+			DrawLabel(centerX - 375, 300, "Need", 13);
+			DrawLabel(centerX - 125, 300, "Rate", 13);
+			DrawLabel(centerX + 125, 300, "Value", 13);
+
+			
+
+			//RATES
+			//
+
+			int y = 305;
+
+			//THIRST
+			y += 20;
+			DrawLabel(centerX - 375, y, "Thirst", 12);
+			DrawSlider(centerX - 250, y, ref increaseValue1);
+			DrawLabel(centerX + 125, y, "1.0", 12);
+			
+		}
 
 
         //calculates the time needed to fill attribute bar starting from 0 to 100, in real and game time
