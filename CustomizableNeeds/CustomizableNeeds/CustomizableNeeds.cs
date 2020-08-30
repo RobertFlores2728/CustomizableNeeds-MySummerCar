@@ -66,7 +66,7 @@ namespace CustomizableNeeds
             ConsoleCommand.Add(new CommandGetNeeds());
 
             gui = new CustomizableNeedsGUI();
-            gui.SetupGuiStyle();
+            gui.LoadRates();
 
 
         }
@@ -96,10 +96,14 @@ namespace CustomizableNeeds
             CheckIfPlayMakerValuesIncreased();
             CheckIfPlayMakerValuesDecreased();
 
-            if (Input.GetKey(KeyCode.LeftControl)) {
+            if (Input.GetKey(KeyCode.LeftShift)) {
                 if (Input.GetKeyDown(KeyCode.Alpha7))
                 {
-                    gui.guiDisplaying = !gui.guiDisplaying;
+                    if (gui.guiDisplaying) {
+                        gui.SaveRates();
+                    }
+
+                    gui.ToggleGUI();
                 }
             }
 
@@ -117,42 +121,42 @@ namespace CustomizableNeeds
             {
                 float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerThirst").Value - previousThirst;
 
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerThirst").Value -= difference * thirstIncreaseRate;
+                FsmVariables.GlobalVariables.FindFsmFloat("PlayerThirst").Value -= difference * (1.0f - gui.thirstIncreaseRate);
             }
 
             if (previousHunger < FsmVariables.GlobalVariables.FindFsmFloat("PlayerHunger").Value)
             {
                 float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerHunger").Value - previousHunger;
 
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerHunger").Value -= difference * hungerIncreaseRate;
+                FsmVariables.GlobalVariables.FindFsmFloat("PlayerHunger").Value -= difference * (1.0f - gui.hungerIncreaseRate);
             }
 
             if (previousStress < FsmVariables.GlobalVariables.FindFsmFloat("PlayerStress").Value)
             {
                 float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerStress").Value - previousStress;
 
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerStress").Value -= difference * stressIncreaseRate;
+                FsmVariables.GlobalVariables.FindFsmFloat("PlayerStress").Value -= difference * (1.0f - gui.stressIncreaseRate);
             }
 
             if (previousUrine < FsmVariables.GlobalVariables.FindFsmFloat("PlayerUrine").Value)
             {
                 float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerUrine").Value - previousUrine;
 
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerUrine").Value -= difference * urineIncreaseRate;
+                FsmVariables.GlobalVariables.FindFsmFloat("PlayerUrine").Value -= difference * (1.0f - gui.urineIncreaseRate);
             }
 
             if (previousFatigue < FsmVariables.GlobalVariables.FindFsmFloat("PlayerFatigue").Value)
             {
                 float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerFatigue").Value - previousFatigue;
 
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerFatigue").Value -= difference * fatigueIncreaseRate;
+                FsmVariables.GlobalVariables.FindFsmFloat("PlayerFatigue").Value -= difference * (1.0f - gui.fatigueIncreaseRate);
             }
 
             if (previousDirtiness < FsmVariables.GlobalVariables.FindFsmFloat("PlayerDirtiness").Value)
             {
                 float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerDirtiness").Value - previousDirtiness;
 
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerDirtiness").Value -= difference * dirtinessIncreaseRate;
+                FsmVariables.GlobalVariables.FindFsmFloat("PlayerDirtiness").Value -= difference * (1.0f - gui.dirtinessIncreaseRate);
             }
         }
 
@@ -163,42 +167,42 @@ namespace CustomizableNeeds
             {
                 float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerThirst").Value - previousThirst;
 
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerThirst").Value -= difference * thirstDecreaseRate;
+                FsmVariables.GlobalVariables.FindFsmFloat("PlayerThirst").Value -= difference * (1.0f - gui.thirstDecreaseRate);
             }
 
             if (previousHunger > FsmVariables.GlobalVariables.FindFsmFloat("PlayerHunger").Value)
             {
                 float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerHunger").Value - previousHunger;
 
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerHunger").Value -= difference * hungerDecreaseRate;
+                FsmVariables.GlobalVariables.FindFsmFloat("PlayerHunger").Value -= difference * (1.0f - gui.hungerDecreaseRate);
             }
 
             if (previousStress > FsmVariables.GlobalVariables.FindFsmFloat("PlayerStress").Value)
             {
                 float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerStress").Value - previousStress;
 
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerStress").Value -= difference * stressDecreaseRate;
+                FsmVariables.GlobalVariables.FindFsmFloat("PlayerStress").Value -= difference * (1.0f - gui.stressDecreaseRate);
             }
 
             if (previousUrine > FsmVariables.GlobalVariables.FindFsmFloat("PlayerUrine").Value)
             {
                 float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerUrine").Value - previousUrine;
 
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerUrine").Value -= difference * urineDecreaseRate;
+                FsmVariables.GlobalVariables.FindFsmFloat("PlayerUrine").Value -= difference * (1.0f - gui.urineDecreaseRate);
             }
 
             if (previousFatigue > FsmVariables.GlobalVariables.FindFsmFloat("PlayerFatigue").Value)
             {
                 float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerFatigue").Value - previousFatigue;
 
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerFatigue").Value -= difference * fatigueDecreaseRate;
+                FsmVariables.GlobalVariables.FindFsmFloat("PlayerFatigue").Value -= difference * (1.0f - gui.fatigueDecreaseRate);
             }
 
             if (previousDirtiness > FsmVariables.GlobalVariables.FindFsmFloat("PlayerDirtiness").Value)
             {
                 float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerDirtiness").Value - previousDirtiness;
 
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerDirtiness").Value -= difference * dirtinessDecreaseRate;
+                FsmVariables.GlobalVariables.FindFsmFloat("PlayerDirtiness").Value -= difference * (1.0f - gui.dirtinessDecreaseRate);
             }
         }
 
