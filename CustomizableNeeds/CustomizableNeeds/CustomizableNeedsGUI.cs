@@ -7,7 +7,7 @@ namespace CustomizableNeeds
     public class CustomizableNeedsGUI : MonoBehaviour
     {
 
-        public bool guiDisplaying = false;
+        bool displaying = false;
 
 
         public float thirstIncreaseRate;
@@ -82,13 +82,17 @@ namespace CustomizableNeeds
         }
 
         public void ToggleGUI() {
-            guiDisplaying = !guiDisplaying;
+            displaying = !displaying;
+        }
+
+        public bool IsDisplaying() {
+            return displaying;
         }
 
 
         public void OnGUI()
         {
-            if (guiDisplaying == false)
+            if (!IsDisplaying())
                 return;
 
             //BACKGROUND BOX

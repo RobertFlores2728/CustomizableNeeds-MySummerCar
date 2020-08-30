@@ -55,7 +55,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandGetNeeds.cs" />
     <Compile Include="CustomizableNeeds.cs" />
     <Compile Include="CustomizableNeedsGUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

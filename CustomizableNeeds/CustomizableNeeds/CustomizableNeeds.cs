@@ -13,38 +13,13 @@ namespace CustomizableNeeds
         public override string Version => "1.0"; //Version
 
 
-        //last update need values
+        //last update PlayMaker need float values
         float previousThirst;
         float previousHunger;
         float previousStress;
         float previousUrine;
         float previousFatigue;
         float previousDirtiness;
-
-
-        //1.0f = subtract all that was incremented last frame, meaning values never increase
-        //these are inverted meaning that a factor 0f 1.0 will be displayed as 0.0 in our gui
-        //because a factor of 1.0 would mean that the attribute be decreased by all that it increased last frame
-        float thirstIncreaseRate = 0.5f;
-        float hungerIncreaseRate = 0.5f;
-        float stressIncreaseRate = 0.5f;
-        float urineIncreaseRate = 0.5f;
-        float fatigueIncreaseRate = 0.5f;
-        float dirtinessIncreaseRate = 0.5f;
-
-
-        //1.0f = add all that was decremented last frame, meaning values never decrease
-        //these are inverted meaning that a factor 0f 1.0 will be displayed as 0.0 in our gui
-        //because a factor of 1.0 would mean that the attribute be increased by all that it decreased last frame
-        float thirstDecreaseRate = 0.5f;
-        float hungerDecreaseRate = 0.5f;
-        float stressDecreaseRate = 0.5f;
-        float urineDecreaseRate = 0.5f;
-        float fatigueDecreaseRate = 0.5f;
-        float dirtinessDecreaseRate = 0.5f;
-
-
-
 
 
         //gui
@@ -98,7 +73,7 @@ namespace CustomizableNeeds
             if (Input.GetKey(KeyCode.LeftShift)) {
                 if (Input.GetKeyDown(KeyCode.Alpha7))
                 {
-                    if (gui.guiDisplaying) {
+                    if (gui.IsDisplaying()) {
                         gui.SaveRates();
                     }
 
@@ -116,97 +91,47 @@ namespace CustomizableNeeds
          * subtract by percentage of original value desired to get the effect of a smaller increase
          */
         public void CheckIfPlayMakerValuesIncreased() {
-            if (previousThirst < FsmVariables.GlobalVariables.FindFsmFloat("PlayerThirst").Value)
+
+            CheckIfPlayMakerValueIncreased("PlayerThirst", previousThirst, gui.thirstIncreaseRate);
+            CheckIfPlayMakerValueIncreased("PlayerHunger", previousHunger, gui.hungerIncreaseRate);
+            CheckIfPlayMakerValueIncreased("PlayerStress", previousStress, gui.stressIncreaseRate);
+            CheckIfPlayMakerValueIncreased("PlayerUrine", previousUrine, gui.urineIncreaseRate);
+            CheckIfPlayMakerValueIncreased("PlayerFatigue", previousFatigue, gui.fatigueIncreaseRate);
+            CheckIfPlayMakerValueIncreased("PlayerDirtiness", previousDirtiness, gui.dirtinessIncreaseRate);
+        }
+
+        void CheckIfPlayMakerValueIncreased(string playMakerValue, float previousValue, float increaseRate) {
+            if (previousValue < FsmVariables.GlobalVariables.FindFsmFloat(playMakerValue).Value)
             {
-                float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerThirst").Value - previousThirst;
+                float difference = FsmVariables.GlobalVariables.FindFsmFloat(playMakerValue).Value - previousValue;
 
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerThirst").Value -= difference * (1.0f - gui.thirstIncreaseRate);
-            }
-
-            if (previousHunger < FsmVariables.GlobalVariables.FindFsmFloat("PlayerHunger").Value)
-            {
-                float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerHunger").Value - previousHunger;
-
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerHunger").Value -= difference * (1.0f - gui.hungerIncreaseRate);
-            }
-
-            if (previousStress < FsmVariables.GlobalVariables.FindFsmFloat("PlayerStress").Value)
-            {
-                float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerStress").Value - previousStress;
-
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerStress").Value -= difference * (1.0f - gui.stressIncreaseRate);
-            }
-
-            if (previousUrine < FsmVariables.GlobalVariables.FindFsmFloat("PlayerUrine").Value)
-            {
-                float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerUrine").Value - previousUrine;
-
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerUrine").Value -= difference * (1.0f - gui.urineIncreaseRate);
-            }
-
-            if (previousFatigue < FsmVariables.GlobalVariables.FindFsmFloat("PlayerFatigue").Value)
-            {
-                float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerFatigue").Value - previousFatigue;
-
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerFatigue").Value -= difference * (1.0f - gui.fatigueIncreaseRate);
-            }
-
-            if (previousDirtiness < FsmVariables.GlobalVariables.FindFsmFloat("PlayerDirtiness").Value)
-            {
-                float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerDirtiness").Value - previousDirtiness;
-
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerDirtiness").Value -= difference * (1.0f - gui.dirtinessIncreaseRate);
+                FsmVariables.GlobalVariables.FindFsmFloat(playMakerValue).Value -= difference * (1.0f - increaseRate);
             }
         }
 
 
-        public void CheckIfPlayMakerValuesDecreased()
+        void CheckIfPlayMakerValuesDecreased()
         {
-            if (previousThirst > FsmVariables.GlobalVariables.FindFsmFloat("PlayerThirst").Value)
+            CheckIfPlayMakerValueDecreased("PlayerThirst", previousThirst, gui.thirstDecreaseRate);
+            CheckIfPlayMakerValueDecreased("PlayerHunger", previousHunger, gui.hungerDecreaseRate);
+            CheckIfPlayMakerValueDecreased("PlayerStress", previousStress, gui.stressDecreaseRate);
+            CheckIfPlayMakerValueDecreased("PlayerUrine", previousUrine, gui.urineDecreaseRate);
+            CheckIfPlayMakerValueDecreased("PlayerFatigue", previousFatigue, gui.fatigueDecreaseRate);
+            CheckIfPlayMakerValueDecreased("PlayerDirtiness", previousDirtiness, gui.dirtinessDecreaseRate);
+        }
+
+        void CheckIfPlayMakerValueDecreased(string playMakerValue, float previousValue, float decreaseRate)
+        {
+            if (previousValue > FsmVariables.GlobalVariables.FindFsmFloat(playMakerValue).Value)
             {
-                float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerThirst").Value - previousThirst; // this will be negative, which is why we subtract in next line to mean adding
+                float difference = FsmVariables.GlobalVariables.FindFsmFloat(playMakerValue).Value - previousValue;
 
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerThirst").Value -= difference * (1.0f - gui.thirstDecreaseRate);
-            }
-
-            if (previousHunger > FsmVariables.GlobalVariables.FindFsmFloat("PlayerHunger").Value)
-            {
-                float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerHunger").Value - previousHunger;
-
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerHunger").Value -= difference * (1.0f - gui.hungerDecreaseRate);
-            }
-
-            if (previousStress > FsmVariables.GlobalVariables.FindFsmFloat("PlayerStress").Value)
-            {
-                float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerStress").Value - previousStress;
-
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerStress").Value -= difference * (1.0f - gui.stressDecreaseRate);
-            }
-
-            if (previousUrine > FsmVariables.GlobalVariables.FindFsmFloat("PlayerUrine").Value)
-            {
-                float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerUrine").Value - previousUrine;
-
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerUrine").Value -= difference * (1.0f - gui.urineDecreaseRate);
-            }
-
-            if (previousFatigue > FsmVariables.GlobalVariables.FindFsmFloat("PlayerFatigue").Value)
-            {
-                float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerFatigue").Value - previousFatigue;
-
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerFatigue").Value -= difference * (1.0f - gui.fatigueDecreaseRate);
-            }
-
-            if (previousDirtiness > FsmVariables.GlobalVariables.FindFsmFloat("PlayerDirtiness").Value)
-            {
-                float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerDirtiness").Value - previousDirtiness;
-
-                FsmVariables.GlobalVariables.FindFsmFloat("PlayerDirtiness").Value -= difference * (1.0f - gui.dirtinessDecreaseRate);
+                FsmVariables.GlobalVariables.FindFsmFloat(playMakerValue).Value -= difference * (1.0f - decreaseRate);
             }
         }
 
 
-        public void GetNeedValuesEndUpdate() {
+        void GetNeedValuesEndUpdate() {
             previousThirst = FsmVariables.GlobalVariables.FindFsmFloat("PlayerThirst").Value;
             previousHunger = FsmVariables.GlobalVariables.FindFsmFloat("PlayerHunger").Value;
             previousStress = FsmVariables.GlobalVariables.FindFsmFloat("PlayerStress").Value;
