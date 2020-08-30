@@ -6,24 +6,95 @@ namespace CustomizableNeeds
     public bool guiDisplaying = false;
 
 
-    public float thirstIncreaseRate = 1.0f;
-    public float hungerIncreaseRate = 1.0f;
-    public float stressIncreaseRate = 1.0f;
-    public float urineIncreaseRate = 1.0f;
-    public float fatigueIncreaseRate = 1.0f;
-    public float dirtinessIncreaseRate = 1.0f;
+    public float thirstIncreaseRate;
+    public float hungerIncreaseRate;
+    public float stressIncreaseRate;
+    public float urineIncreaseRate;
+    public float fatigueIncreaseRate;
+    public float dirtinessIncreaseRate;
 
 
-    public float thirstDecreaseRate = 1.0f;
-    public float hungerDecreaseRate = 1.0f;
-    public float stressDecreaseRate = 1.0f;
-    public float urineDecreaseRate = 1.0f;
-    public float fatigueDecreaseRate = 1.0f;
-    public float dirtinessDecreaseRate = 1.0f;
+    public float thirstDecreaseRate;
+    public float hungerDecreaseRate;
+    public float stressDecreaseRate;
+    public float urineDecreaseRate;
+    public float fatigueDecreaseRate;
+    public float dirtinessDecreaseRate;
 
     private void Start()
     {
+        LoadRates();
+    }
 
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.Alpha7))
+            {
+
+                if (guiDisplaying)
+                {
+                    SaveRates();
+                }
+
+
+                guiDisplaying = !guiDisplaying;
+            }
+
+    }
+
+    void LoadRate(ref float rate, string rateName)
+    {
+        if (!PlayerPrefs.HasKey(rateName))
+        {
+            PlayerPrefs.SetFloat(rateName, 1.0f);
+        }
+
+        rate = PlayerPrefs.GetFloat(rateName);
+    }
+
+    void LoadRates()
+    {
+        //load increase rates
+        LoadRate(ref thirstIncreaseRate, "CUSTOMIZABLENEEDS_thirstIR");
+        LoadRate(ref hungerIncreaseRate, "CUSTOMIZABLENEEDS_hungerIR");
+        LoadRate(ref stressIncreaseRate, "CUSTOMIZABLENEEDS_stressIR");
+        LoadRate(ref urineIncreaseRate, "CUSTOMIZABLENEEDS_urineIR");
+        LoadRate(ref fatigueIncreaseRate, "CUSTOMIZABLENEEDS_fatigueIR");
+        LoadRate(ref dirtinessIncreaseRate, "CUSTOMIZABLENEEDS_dirtinessIR");
+
+        //load decrease rates
+        LoadRate(ref thirstDecreaseRate, "CUSTOMIZABLENEEDS_thirstDR");
+        LoadRate(ref hungerDecreaseRate, "CUSTOMIZABLENEEDS_hungerDR");
+        LoadRate(ref stressDecreaseRate, "CUSTOMIZABLENEEDS_stressDR");
+        LoadRate(ref urineDecreaseRate, "CUSTOMIZABLENEEDS_urineDR");
+        LoadRate(ref fatigueDecreaseRate, "CUSTOMIZABLENEEDS_fatigueDR");
+        LoadRate(ref dirtinessDecreaseRate, "CUSTOMIZABLENEEDS_dirtinessDR");
+    }
+
+    void SaveRate(ref float rate, string rateName)
+    {
+        if (PlayerPrefs.GetFloat(rateName) != rate)
+            PlayerPrefs.SetFloat(rateName, rate);
+    }
+
+    void SaveRates()
+    {
+        //save increase rates
+        SaveRate(ref thirstIncreaseRate, "CUSTOMIZABLENEEDS_thirstIR");
+        SaveRate(ref hungerIncreaseRate, "CUSTOMIZABLENEEDS_hungerIR");
+        SaveRate(ref stressIncreaseRate, "CUSTOMIZABLENEEDS_stressIR");
+        SaveRate(ref urineIncreaseRate, "CUSTOMIZABLENEEDS_urineIR");
+        SaveRate(ref fatigueIncreaseRate, "CUSTOMIZABLENEEDS_fatigueIR");
+        SaveRate(ref dirtinessIncreaseRate, "CUSTOMIZABLENEEDS_dirtinessIR");
+
+        //Save decrease rates
+        SaveRate(ref thirstDecreaseRate, "CUSTOMIZABLENEEDS_thirstDR");
+        SaveRate(ref hungerDecreaseRate, "CUSTOMIZABLENEEDS_hungerDR");
+        SaveRate(ref stressDecreaseRate, "CUSTOMIZABLENEEDS_stressDR");
+        SaveRate(ref urineDecreaseRate, "CUSTOMIZABLENEEDS_urineDR");
+        SaveRate(ref fatigueDecreaseRate, "CUSTOMIZABLENEEDS_fatigueDR");
+        SaveRate(ref dirtinessDecreaseRate, "CUSTOMIZABLENEEDS_dirtinessDR");
     }
 
 
@@ -39,7 +110,7 @@ namespace CustomizableNeeds
 
         DrawDecreaseRates();
 
-        
+
     }
 
     public struct Coords
@@ -54,7 +125,8 @@ namespace CustomizableNeeds
         public float y;
     }
 
-    void DrawBox() {
+    void DrawBox()
+    {
         Coords boxDimensions = new Coords(850f, 500f); // keep box dimensions within (1280, 720) pixels
         Coords boxPosition = new Coords(Screen.width / 2 - boxDimensions.x / 2, 20);
         Rect boxRect = new Rect(boxPosition.x, boxPosition.y, boxDimensions.x, boxDimensions.y);
@@ -62,7 +134,8 @@ namespace CustomizableNeeds
         GUI.Box(boxRect, "CustomizableNeeds v1.0 by Heb27");
     }
 
-    void DrawLabel(float posX, float posY, string labelText, int fontSize = 12) {
+    void DrawLabel(float posX, float posY, string labelText, int fontSize = 12)
+    {
         GUIStyle labelStyle = new GUIStyle(GUI.skin.GetStyle("Label"));
         labelStyle.fontSize = fontSize;
 
@@ -86,7 +159,8 @@ namespace CustomizableNeeds
 
     //hardcode positions only way!
     // keep all positions within (1280, 720) pixels
-    void DrawIncreaseRates() {
+    void DrawIncreaseRates()
+    {
 
         float centerX = Screen.width / 2;
 
@@ -160,14 +234,14 @@ namespace CustomizableNeeds
         //SECTION LABEL
         DrawLabel(centerX - 50, 275, "Decrease Rates", 15);
 
-       
+
 
         //COLUMN LABELS
         DrawLabel(centerX - 375, 300, "Need", 13);
         DrawLabel(centerX - 125, 300, "Rate", 13);
         DrawLabel(centerX + 125, 300, "Value", 13);
 
-        
+
 
         //RATES
         //
@@ -178,8 +252,38 @@ namespace CustomizableNeeds
         y += 20;
         DrawLabel(centerX - 375, y, "Thirst", 12);
         DrawSlider(centerX - 250, y, ref thirstDecreaseRate);
-        DrawLabel(centerX + 125, y, thirstDecreaseRate.ToString(), 12);
-        
+        DrawLabel(centerX + 125, y, Math.Round(thirstDecreaseRate, 3).ToString(), 12);
+
+        //HUNGER
+        y += 20;
+        DrawLabel(centerX - 375, y, "Hunger", 12);
+        DrawSlider(centerX - 250, y, ref hungerDecreaseRate);
+        DrawLabel(centerX + 125, y, Math.Round(hungerDecreaseRate, 3).ToString(), 12);
+
+        //STRESS
+        y += 20;
+        DrawLabel(centerX - 375, y, "Stress", 12);
+        DrawSlider(centerX - 250, y, ref stressDecreaseRate);
+        DrawLabel(centerX + 125, y, Math.Round(stressDecreaseRate, 3).ToString(), 12);
+
+        //URINE
+        y += 20;
+        DrawLabel(centerX - 375, y, "Urine", 12);
+        DrawSlider(centerX - 250, y, ref urineDecreaseRate);
+        DrawLabel(centerX + 125, y, Math.Round(urineDecreaseRate, 3).ToString(), 12);
+
+        //FATIGUE
+        y += 20;
+        DrawLabel(centerX - 375, y, "Fatigue", 12);
+        DrawSlider(centerX - 250, y, ref fatigueDecreaseRate);
+        DrawLabel(centerX + 125, y, Math.Round(fatigueDecreaseRate, 3).ToString(), 12);
+
+        //DIRTINESS
+        y += 20;
+        DrawLabel(centerX - 375, y, "Dirtiness", 12);
+        DrawSlider(centerX - 250, y, ref dirtinessDecreaseRate);
+        DrawLabel(centerX + 125, y, Math.Round(dirtinessDecreaseRate, 3).ToString(), 12);
+
     }
 
     //calculates the time needed to fill attribute bar starting from 0 to 100, in real and game time
@@ -190,7 +294,8 @@ namespace CustomizableNeeds
 
         float increaseRate; // per 45 seconds. whatever attribute we want to calculate such as hunger, stress, etc. look in wiki for values
 
-        switch (type){
+        switch (type)
+        {
             case "Thirst":
                 increaseRate = 1.83f;
                 break;
@@ -229,7 +334,8 @@ namespace CustomizableNeeds
         //ModConsole.Print("time from empty to full - Game: " + "D: " + (int)(gameSeconds / 86400) + " H: " + (int)((gameSeconds / 3600) % 24) + " M: " + (int)((gameSeconds / 60) % 60) + " S: " + (int)(gameSeconds % 60));
     }
 
-    void FloorRate(ref float sliderValue) {
+    void FloorRate(ref float sliderValue)
+    {
         if (sliderValue < 0.001f)
             sliderValue = 0.0f;
     }
