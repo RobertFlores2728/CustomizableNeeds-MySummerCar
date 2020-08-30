@@ -123,7 +123,7 @@ namespace CustomizableNeeds
             Coords boxPosition = new Coords(Screen.width / 2 - boxDimensions.x / 2, 20);
             Rect boxRect = new Rect(boxPosition.x, boxPosition.y, boxDimensions.x, boxDimensions.y);
 
-            GUI.Box(boxRect, "CustomizableNeeds v1.0 by Heb27");
+            GUI.Box(boxRect, "CustomizableNeeds v1.0 by heb27");
         }
 
         void DrawLabel(float posX, float posY, string labelText, int fontSize = 12)
