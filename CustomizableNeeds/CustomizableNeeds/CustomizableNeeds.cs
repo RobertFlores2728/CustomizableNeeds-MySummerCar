@@ -62,8 +62,6 @@ namespace CustomizableNeeds
 
         public override void OnLoad()
         {
-            // Called once, when mod is loading after game is fully loaded
-            ConsoleCommand.Add(new CommandGetNeeds());
 
             gui = new CustomizableNeedsGUI();
             gui.LoadRates();
@@ -81,6 +79,7 @@ namespace CustomizableNeeds
         {
             // Called once, when save and quit
             // Serialize your save file here.
+            gui.SaveRates();
         }
 
         public override void OnGUI()
@@ -165,7 +164,7 @@ namespace CustomizableNeeds
         {
             if (previousThirst > FsmVariables.GlobalVariables.FindFsmFloat("PlayerThirst").Value)
             {
-                float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerThirst").Value - previousThirst;
+                float difference = FsmVariables.GlobalVariables.FindFsmFloat("PlayerThirst").Value - previousThirst; // this will be negative, which is why we subtract in next line to mean adding
 
                 FsmVariables.GlobalVariables.FindFsmFloat("PlayerThirst").Value -= difference * (1.0f - gui.thirstDecreaseRate);
             }
