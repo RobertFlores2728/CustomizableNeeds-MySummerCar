@@ -10,7 +10,7 @@ namespace CustomizableNeeds
         public override string ID => "CustomizableNeeds"; //Your mod ID (unique)
         public override string Name => "CustomizableNeeds"; //You mod name
         public override string Author => "heb27"; //Your Username
-        public override string Version => "1.0"; //Version
+        public override string Version => "1.0.1"; //Version
 
 
         //last update PlayMaker need float values
@@ -80,6 +80,9 @@ namespace CustomizableNeeds
                     gui.ToggleGUI();
                 }
             }
+
+            if (Input.GetKey(KeyCode.Escape))
+                gui.ToggleGUI(false);
 
 
 

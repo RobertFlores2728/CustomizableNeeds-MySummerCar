@@ -1,11 +1,13 @@
 ﻿using MSCLoader;
 using System;
 using UnityEngine;
+using HutongGames.PlayMaker;
 
 namespace CustomizableNeeds
 {
     public class CustomizableNeedsGUI : MonoBehaviour
     {
+        bool alreadyInMenu = false;
 
         bool displaying = false;
 
@@ -82,7 +84,16 @@ namespace CustomizableNeeds
         }
 
         public void ToggleGUI() {
+            if (!displaying && FsmVariables.GlobalVariables.FindFsmBool("PlayerInMenu").Value)
+                return;
+
             displaying = !displaying;
+            FsmVariables.GlobalVariables.FindFsmBool("PlayerInMenu").Value = displaying;
+        }
+
+        public void ToggleGUI(bool toggle)
+        {
+            displaying = toggle;
         }
 
         public bool IsDisplaying() {
@@ -123,7 +134,7 @@ namespace CustomizableNeeds
             Coords boxPosition = new Coords(Screen.width / 2 - boxDimensions.x / 2, 20);
             Rect boxRect = new Rect(boxPosition.x, boxPosition.y, boxDimensions.x, boxDimensions.y);
 
-            GUI.Box(boxRect, "CustomizableNeeds v1.0 by heb27");
+            GUI.Box(boxRect, "CustomizableNeeds v1.0.1 by heb27");
         }
 
         void DrawLabel(float posX, float posY, string labelText, int fontSize = 12)
