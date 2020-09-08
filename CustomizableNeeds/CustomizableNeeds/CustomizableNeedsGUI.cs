@@ -7,9 +7,24 @@ namespace CustomizableNeeds
 {
     public class CustomizableNeedsGUI : MonoBehaviour
     {
-        bool alreadyInMenu = false;
 
         bool displaying = false;
+
+
+        //text field strings
+        public string stringThirstIR;
+        public string stringHungerIR;
+        public string stringStressIR;
+        public string stringUrineIR;
+        public string stringFatigueIR;
+        public string stringDirtinessIR;
+
+        public string stringThirstDR;
+        public string stringHungerDR;
+        public string stringStressDR;
+        public string stringUrineDR;
+        public string stringFatigueDR;
+        public string stringDirtinessDR;
 
 
         public float thirstIncreaseRate;
@@ -159,12 +174,43 @@ namespace CustomizableNeeds
             FloorRate(ref value);
         }
 
+        void DrawTextField(float posX, float posY, ref string fieldText, ref float value, string controlName, int fontSize = 12)
+        {
+            GUIStyle fieldStyle = new GUIStyle(GUI.skin.GetStyle("TextField"));
+            fieldStyle.fontSize = fontSize;
+
+
+            GUI.SetNextControlName(controlName);
+
+            if (!(GUI.GetNameOfFocusedControl() == controlName))
+                fieldText = value.ToString();
+            else if (GUI.GetNameOfFocusedControl() == controlName)
+            {
+                if (Event.current.type == EventType.KeyDown && (Event.current.keyCode == KeyCode.Return))
+                {
+                    float result;
+                    if (!float.TryParse(fieldText, out result))
+                        return;
+
+                    if (result > 1)
+                        result = 1;
+                    else if (result < 0)
+                        result = 0;
+
+                    value = result;
+
+                }
+            }
+
+            fieldText = GUI.TextField(new Rect(posX, posY, 45, 17), fieldText, 5, fieldStyle);
+
+        }
+
 
         //hardcode positions only way!
         // keep all positions within (1280, 720) pixels
         void DrawIncreaseRates()
         {
-
             float centerX = Screen.width / 2;
 
             //SECTION LABEL
@@ -172,7 +218,7 @@ namespace CustomizableNeeds
 
             //COLUMN LABELS
             DrawLabel(centerX - 375, 75, "Need", 13);
-            DrawLabel(centerX - 125, 75, "Rate", 13);
+            DrawLabel(centerX - 150, 75, "Rate", 13);
             DrawLabel(centerX + 125, 75, "Estimated time from empty to full", 13);
 
 
@@ -187,44 +233,50 @@ namespace CustomizableNeeds
             //THIRST
             y += 20;
             DrawLabel(centerX - 375, y, "Thirst", 12);
-            DrawSlider(centerX - 250, y, ref thirstIncreaseRate);
+            DrawSlider(centerX - 275, y, ref thirstIncreaseRate);
+            DrawTextField(centerX - 18, y, ref stringThirstIR, ref thirstIncreaseRate, nameof(thirstIncreaseRate), 12);
             calculatedTimeString = CalculateTimeNeeded("Thirst", thirstIncreaseRate);
-            DrawLabel(centerX + 50, y, calculatedTimeString, 12);
+            DrawLabel(centerX + 60, y, calculatedTimeString, 12);
 
             //HUNGER
             y += 20;
             DrawLabel(centerX - 375, y, "Hunger", 12);
-            DrawSlider(centerX - 250, y, ref hungerIncreaseRate);
+            DrawSlider(centerX - 275, y, ref hungerIncreaseRate);
+            DrawTextField(centerX - 18, y, ref stringHungerIR, ref hungerIncreaseRate, nameof(hungerIncreaseRate), 12);
             calculatedTimeString = CalculateTimeNeeded("Hunger", hungerIncreaseRate);
-            DrawLabel(centerX + 50, y, calculatedTimeString, 12);
+            DrawLabel(centerX + 60, y, calculatedTimeString, 12);
 
             //STRESS
             y += 20;
             DrawLabel(centerX - 375, y, "Stress", 12);
-            DrawSlider(centerX - 250, y, ref stressIncreaseRate);
+            DrawSlider(centerX - 275, y, ref stressIncreaseRate);
+            DrawTextField(centerX - 18, y, ref stringStressIR, ref stressIncreaseRate, nameof(stressIncreaseRate), 12);
             calculatedTimeString = CalculateTimeNeeded("Stress", stressIncreaseRate);
-            DrawLabel(centerX + 50, y, calculatedTimeString, 12);
+            DrawLabel(centerX + 60, y, calculatedTimeString, 12);
 
             //URINE
             y += 20;
             DrawLabel(centerX - 375, y, "Urine", 12);
-            DrawSlider(centerX - 250, y, ref urineIncreaseRate);
+            DrawSlider(centerX - 275, y, ref urineIncreaseRate);
+            DrawTextField(centerX - 18, y, ref stringUrineIR, ref urineIncreaseRate, nameof(urineIncreaseRate), 12);
             calculatedTimeString = CalculateTimeNeeded("Urine", urineIncreaseRate);
-            DrawLabel(centerX + 50, y, calculatedTimeString, 12);
+            DrawLabel(centerX + 60, y, calculatedTimeString, 12);
 
             //FATIGUE
             y += 20;
             DrawLabel(centerX - 375, y, "Fatigue", 12);
-            DrawSlider(centerX - 250, y, ref fatigueIncreaseRate);
+            DrawSlider(centerX - 275, y, ref fatigueIncreaseRate);
+            DrawTextField(centerX - 18, y, ref stringFatigueIR, ref fatigueIncreaseRate, nameof(fatigueIncreaseRate), 12);
             calculatedTimeString = CalculateTimeNeeded("Fatigue", fatigueIncreaseRate);
-            DrawLabel(centerX + 50, y, calculatedTimeString, 12);
+            DrawLabel(centerX + 60, y, calculatedTimeString, 12);
 
             //DIRTINESS
             y += 20;
             DrawLabel(centerX - 375, y, "Dirtiness", 12);
-            DrawSlider(centerX - 250, y, ref dirtinessIncreaseRate);
+            DrawSlider(centerX - 275, y, ref dirtinessIncreaseRate);
+            DrawTextField(centerX - 18, y, ref stringDirtinessIR, ref dirtinessIncreaseRate, nameof(dirtinessIncreaseRate), 12);
             calculatedTimeString = CalculateTimeNeeded("Dirtiness", dirtinessIncreaseRate);
-            DrawLabel(centerX + 50, y, calculatedTimeString, 12);
+            DrawLabel(centerX + 60, y, calculatedTimeString, 12);
 
         }
 
@@ -241,8 +293,7 @@ namespace CustomizableNeeds
 
             //COLUMN LABELS
             DrawLabel(centerX - 375, 300, "Need", 13);
-            DrawLabel(centerX - 125, 300, "Rate", 13);
-            DrawLabel(centerX + 125, 300, "Value", 13);
+            DrawLabel(centerX - 150, 300, "Rate", 13);
 
 
 
@@ -254,38 +305,38 @@ namespace CustomizableNeeds
             //THIRST
             y += 20;
             DrawLabel(centerX - 375, y, "Thirst", 12);
-            DrawSlider(centerX - 250, y, ref thirstDecreaseRate);
-            DrawLabel(centerX + 125, y, Math.Round(thirstDecreaseRate, 3).ToString(), 12);
+            DrawSlider(centerX - 275, y, ref thirstDecreaseRate);
+            DrawTextField(centerX - 18, y, ref stringThirstDR, ref thirstDecreaseRate, nameof(thirstDecreaseRate), 12);
 
             //HUNGER
             y += 20;
             DrawLabel(centerX - 375, y, "Hunger", 12);
-            DrawSlider(centerX - 250, y, ref hungerDecreaseRate);
-            DrawLabel(centerX + 125, y, Math.Round(hungerDecreaseRate, 3).ToString(), 12);
+            DrawSlider(centerX - 275, y, ref hungerDecreaseRate);
+            DrawTextField(centerX - 18, y, ref stringHungerDR, ref hungerDecreaseRate, nameof(hungerDecreaseRate), 12);
 
             //STRESS
             y += 20;
             DrawLabel(centerX - 375, y, "Stress", 12);
-            DrawSlider(centerX - 250, y, ref stressDecreaseRate);
-            DrawLabel(centerX + 125, y, Math.Round(stressDecreaseRate, 3).ToString(), 12);
+            DrawSlider(centerX - 275, y, ref stressDecreaseRate);
+            DrawTextField(centerX - 18, y, ref stringStressDR, ref stressDecreaseRate, nameof(stressDecreaseRate), 12);
 
             //URINE
             y += 20;
             DrawLabel(centerX - 375, y, "Urine", 12);
-            DrawSlider(centerX - 250, y, ref urineDecreaseRate);
-            DrawLabel(centerX + 125, y, Math.Round(urineDecreaseRate, 3).ToString(), 12);
+            DrawSlider(centerX - 275, y, ref urineDecreaseRate);
+            DrawTextField(centerX - 18, y, ref stringUrineDR, ref urineDecreaseRate, nameof(urineDecreaseRate), 12);
 
             //FATIGUE
             y += 20;
             DrawLabel(centerX - 375, y, "Fatigue", 12);
-            DrawSlider(centerX - 250, y, ref fatigueDecreaseRate);
-            DrawLabel(centerX + 125, y, Math.Round(fatigueDecreaseRate, 3).ToString(), 12);
+            DrawSlider(centerX - 275, y, ref fatigueDecreaseRate);
+            DrawTextField(centerX - 18, y, ref stringFatigueDR, ref fatigueDecreaseRate, nameof(fatigueDecreaseRate), 12);
 
             //DIRTINESS
             y += 20;
             DrawLabel(centerX - 375, y, "Dirtiness", 12);
-            DrawSlider(centerX - 250, y, ref dirtinessDecreaseRate);
-            DrawLabel(centerX + 125, y, Math.Round(dirtinessDecreaseRate, 3).ToString(), 12);
+            DrawSlider(centerX - 275, y, ref dirtinessDecreaseRate);
+            DrawTextField(centerX - 18, y, ref stringDirtinessDR, ref dirtinessDecreaseRate, nameof(dirtinessDecreaseRate), 12);
 
         }
 
