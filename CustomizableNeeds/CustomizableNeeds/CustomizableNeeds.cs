@@ -10,7 +10,9 @@ namespace CustomizableNeeds
         public override string ID => "CustomizableNeeds"; //Your mod ID (unique)
         public override string Name => "CustomizableNeeds"; //You mod name
         public override string Author => "heb27"; //Your Username
-        public override string Version => "1.1"; //Version
+        public override string Version => "1.1.1"; //Version
+
+        bool gameLoadedNeeds = false;
 
 
         //last update PlayMaker need float values
@@ -95,6 +97,12 @@ namespace CustomizableNeeds
          */
         public void CheckIfPlayMakerValuesIncreased() {
 
+            if (gameLoadedNeeds == false)
+            {
+                gameLoadedNeeds = true;
+                return;
+            }
+
             CheckIfPlayMakerValueIncreased("PlayerThirst", previousThirst, gui.thirstIncreaseRate);
             CheckIfPlayMakerValueIncreased("PlayerHunger", previousHunger, gui.hungerIncreaseRate);
             CheckIfPlayMakerValueIncreased("PlayerStress", previousStress, gui.stressIncreaseRate);
@@ -106,6 +114,7 @@ namespace CustomizableNeeds
         void CheckIfPlayMakerValueIncreased(string playMakerValue, float previousValue, float increaseRate) {
             if (previousValue < FsmVariables.GlobalVariables.FindFsmFloat(playMakerValue).Value)
             {
+
                 float difference = FsmVariables.GlobalVariables.FindFsmFloat(playMakerValue).Value - previousValue;
 
                 FsmVariables.GlobalVariables.FindFsmFloat(playMakerValue).Value -= difference * (1.0f - increaseRate);

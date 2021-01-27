@@ -149,7 +149,7 @@ namespace CustomizableNeeds
             Coords boxPosition = new Coords(Screen.width / 2 - boxDimensions.x / 2, 20);
             Rect boxRect = new Rect(boxPosition.x, boxPosition.y, boxDimensions.x, boxDimensions.y);
 
-            GUI.Box(boxRect, "CustomizableNeeds v1.1 by heb27");
+            GUI.Box(boxRect, "CustomizableNeeds v1.1.1 by heb27");
         }
 
         void DrawLabel(float posX, float posY, string labelText, int fontSize = 12)
@@ -190,7 +190,11 @@ namespace CustomizableNeeds
                 {
                     float result;
                     if (!float.TryParse(fieldText, out result))
+                    {
+                        fieldText = value.ToString();
+                        GUI.FocusControl(null);
                         return;
+                    }
 
                     if (result > 1)
                         result = 1;
